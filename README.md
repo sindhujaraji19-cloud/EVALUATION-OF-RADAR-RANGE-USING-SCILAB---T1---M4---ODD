@@ -25,7 +25,58 @@ Where:
 * $\sigma$ : Radar cross-section of the target ($\text{m}^2$)
 * $P_{\min}$ : Minimum detectable signal power of the receiver (W)
 
----
+---##CODE
+clc;
+clear;
+close;
+
+// Constants
+Pt = 1000;          // Transmitted power (W)
+Gt = 20;            // Transmitting antenna gain
+Gr = 20;            // Receiving antenna gain
+lambda = 0.03;      // Wavelength (m)
+sigma = 1;          // Radar cross section
+
+// Target range
+R = 1:1000;
+
+// Radar received power
+Pr = (Pt*Gt*Gr*lambda^2*sigma) ./ ((4*%pi)^3 * R.^4);
+
+// Convert to dBm
+Pr_dBm = 10*log10(Pr*1000);
+
+// Plot 1: Received Power vs Target Range
+figure(1);
+plot(R, Pr_dBm);
+xlabel("Range (m)");
+ylabel("Received Power (dBm)");
+title("RADAR Received Power vs Target Range");
+xgrid();
+
+// Plot 2: Maximum Radar Range vs Transmitted Power
+P = 1:1000;
+
+Rmax = ((P*Gt*Gr*lambda^2*sigma) ./ ((4*%pi)^3*Pr(100))).^(1/4);
+
+figure(2);
+plot(P, Rmax);
+xlabel("Transmitted Power (W)");
+ylabel("Maximum Range (m)");
+title("Maximum RADAR Range vs Transmitted Power");
+xgrid();
+
+// Plot 3: Radar Range vs Antenna Gain
+G = 10:40;
+
+Rgain = ((Pt*G.^2*lambda^2*sigma) ./ ((4*%pi)^3*Pr(100))).^(1/4);
+
+figure(3);
+plot(G, Rgain);
+xlabel("Antenna Gain");
+ylabel("Maximum Range (m)");
+title("RADAR Range vs Antenna Gain");
+xgrid();
 
 ## Procedure / Algorithm
 1. **Set Up the Scilab Environment:** Launch the Scilab workspace/console.
