@@ -25,7 +25,7 @@ Where:
 * $\sigma$ : Radar cross-section of the target ($\text{m}^2$)
 * $P_{\min}$ : Minimum detectable signal power of the receiver (W)
 
----##CODE
+## CODE
 clc;
 clear;
 close;
